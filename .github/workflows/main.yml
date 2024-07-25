@@ -42,11 +42,17 @@ jobs:
       - name: Install Kubectl cli
         uses: azure/setup-kubectl@v3
         with:
-          version: 'v1.26.0'
+          version: 'v1.29.0'
+
+      - name: Set Kubeconfig    
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
           
       - name: Fetch kubernetes details
         run: |
-          kubectl version --short
+          kubectl version 
           echo ----------------------------
           kubectl get nodes      
 
