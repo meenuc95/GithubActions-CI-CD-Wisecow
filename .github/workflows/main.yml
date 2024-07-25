@@ -31,3 +31,22 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: push_to_registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+    steps:
+      - name: Install Kubectl cli
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.26.0'
+    steps:
+      - name: Fetch kubernetes details
+        run: |
+          kubectl version --short
+          echo ----------------------------
+          kubectl get nodes      
+
