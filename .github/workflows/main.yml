@@ -42,17 +42,19 @@ jobs:
       - name: Install Kubectl cli
         uses: azure/setup-kubectl@v3
         with:
-          version: 'v1.29.0'
+          version: 'v1.30.0'
 
-      - name: Set Kubeconfig    
-        uses: azure/k8s-set-context@v4
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBECONFIG }}
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name ks-cluster --region us-east-1
           
       - name: Fetch kubernetes details
         run: |
           kubectl version 
           echo ----------------------------
-          kubectl get nodes      
+          kubectl get nodes
+
+      - name: Deploy to EKS
+        run: |
+          kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml          
 
