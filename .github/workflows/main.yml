@@ -61,12 +61,19 @@ jobs:
           kubectl get nodes
 
       - name: Generate Self-Signed Certificate
-      run: |
-        mkdir -p certificates
-        openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-          -keyout certificates/tls.key \
-          -out certificates/tls.crt \
-          -subj "/CN=zarur.info/O=mycompany"
+        run: |
+          mkdir -p certificates
+          openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+            -keyout certificates/tls.key \
+            -out certificates/tls.crt \
+            -subj "/CN=zarur.info/O=mycompany"
+
+      - name: Create or Update TLS Secret
+        run: |
+          kubectl create secret tls tls-secret \
+            --cert=certificates/tls.crt \
+            --key=certificates/tls.key \
+            --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Create or Update TLS Secret
         run: |
@@ -79,4 +86,4 @@ jobs:
         run: |
           kubectl apply -f deployment.yml
           kubectl apply -f service.yml
-          kubectl apply -f ingress.yml          
+          kubectl apply -f ingress.yml
