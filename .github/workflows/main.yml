@@ -68,12 +68,12 @@ jobs:
           -out certificates/tls.crt \
           -subj "/CN=zarur.info/O=mycompany"
 
-    - name: Create or Update TLS Secret
-      run: |
-        kubectl create secret tls tls-secret \
-          --cert=certificates/tls.crt \
-          --key=certificates/tls.key \
-          --dry-run=client -o yaml | kubectl apply -f -    
+      - name: Create or Update TLS Secret
+        run: |
+          kubectl create secret tls tls-secret \
+            --cert=certificates/tls.crt \
+            --key=certificates/tls.key \
+            --dry-run=client -o yaml | kubectl apply -f -    
 
       - name: Deploy to EKS
         run: |
