@@ -3,7 +3,7 @@ apiVersion: v1
 metadata:
   name: wisecow-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 4499
       targetPort: 4499
