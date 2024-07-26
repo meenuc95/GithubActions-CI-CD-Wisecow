@@ -13,7 +13,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: wisecow-service-service
+            name: wisecow-service
             port:
               number: 4499
   tls:
